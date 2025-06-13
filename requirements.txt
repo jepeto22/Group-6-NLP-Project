@@ -1,0 +1,16 @@
+bitsandbytes
+datasets
+matplotlib
+neptune-client
+nltk
+numpy
+pandas
+peft
+scikit-learn
+seaborn
+torch
+tqdm
+transformers
+trl
+unsloth
+xformers
