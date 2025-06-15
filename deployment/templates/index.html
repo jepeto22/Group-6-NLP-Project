@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to AI Blog Showcase</h1>
+        <p>Select a blog version below:</p>
+        <div class="buttons">
+            <a href="{{ url_for('chatgpt_blog') }}" class="button">Blog generated using ChatGPT 4</a>
+            <a href="{{ url_for('mistral_blog') }}" class="button">Blog generated using Mistral</a>
+        </div>
+    </div>
+</body>
+</html>

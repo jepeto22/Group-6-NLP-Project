@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mistral Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Blog Generated with Mistral</h1>
+        <div class="blog-content">
+            <p>{{ content.replace('\n', '<br>') | safe }}</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="button">← Back to Home</a>
+    </div>
+</body>
+</html>
