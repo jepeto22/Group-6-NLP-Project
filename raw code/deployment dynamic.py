@@ -12,6 +12,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+from kneed import KneeLocator
 from scipy.sparse import hstack
 import joblib
 import nltk
@@ -20,6 +22,13 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
+import gradio as gr
+from dotenv import load_dotenv
+import openai
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import classification_report, confusion_matrix
 
 nltk.download('punkt')
 nltk.download('punkt_tab')
