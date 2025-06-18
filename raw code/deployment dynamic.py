@@ -23,8 +23,6 @@ from nltk.stem import WordNetLemmatizer
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
 import gradio as gr
-from dotenv import load_dotenv
-import openai
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import MultinomialNB
@@ -74,7 +72,7 @@ blog_generator = load_blog_generator()
 
 def full_pipeline(file):
     # 1. Load CSV
-    df = pd.read_csv(file.name)
+    df = pd.read_csv(file)
     
     # 2. Preprocess reviews (clean, tokenize, lemmatize, etc.)
     df = preprocess_pipeline(df)
@@ -107,10 +105,10 @@ def full_pipeline(file):
 
 iface = gr.Interface(
     fn=full_pipeline,
-    inputs=gr.File(label="Upload your Amazon reviews CSV"),
+    inputs=gr.File(label="Upload your Amazon reviews CSV. Ensure it has at least the following columns: asins, name, categories, reviews.rating, reviews.title, reviews.text"),
     outputs=gr.Textbox(label="Generated Blogposts"),
     title="Amazon Product Review Blog Generator",
-    description="Upload a CSV of Amazon product reviews. The app will preprocess, analyze sentiment (using your trained model), cluster products, and generate a blogpost for each category with top picks and warnings."
+    description="Upload a CSV of product reviews. The app will preprocess, analyze sentiment, cluster products, and generate a blogpost for each category with top picks and the worst product."
 )
 
 if __name__ == "__main__":

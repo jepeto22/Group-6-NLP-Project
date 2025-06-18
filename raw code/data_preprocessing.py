@@ -131,4 +131,5 @@ def preprocess_pipeline(df):
     df = remove_stopwords(df)
     df = lemmatize_tokens(df)
     df['lemmatized_str'] = df['tokens_lemmatized'].apply(lambda tokens: ' '.join(tokens))
+    df = preprocess_and_lemmatize_names_categories(df)
     return df

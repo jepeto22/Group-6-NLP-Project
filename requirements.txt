@@ -1,10 +1,15 @@
 pandas
 numpy
+accelerate
+joblib
+bitsandbytes
+dotenv
 nltk
 scikit-learn
 matplotlib
 seaborn
 flask
+gradio
 tqdm
 openai          
 transformers
