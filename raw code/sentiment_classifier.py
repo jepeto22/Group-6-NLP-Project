@@ -6,16 +6,16 @@ Model 1 - Sentiment Classifier
 This script provides functions to prepare features, train, select, and evaluate sentiment classification models for Amazon product reviews.
 """
 
+import pandas as pd
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
-from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.feature_extraction.text import TfidfVectorizer
-from scipy.sparse import hstack
-import numpy as np
-import pandas as pd
+import joblib
+import re
 
 def prepare_sentiment_features(df, text_col='lemmatized_str', label_col='sentiment'):
     """

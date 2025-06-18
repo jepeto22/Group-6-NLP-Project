@@ -6,6 +6,13 @@ Data Preprocessing Pipeline for Amazon Product Reviews
 This script provides functions to clean, preprocess, tokenize, lemmatize, and label sentiment for Amazon product reviews.
 """
 
+import pandas as pd
+import numpy as np
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 
 def drop_duplicates_empty(df):
     """

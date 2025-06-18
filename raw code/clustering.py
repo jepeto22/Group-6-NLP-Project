@@ -18,6 +18,9 @@ from kneed import KneeLocator
 from dotenv import load_dotenv
 import openai
 
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
 
 def vectorize_text(df, text_col='name_category_lemmatized'):
     """
@@ -134,10 +137,6 @@ def get_category_name_openai(product_names, used_names, openai_api_key, model="g
         str: A unique category name.
     """
 
-    # Load environment variables (e.g., OpenAI API key)
-    load_dotenv()
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-
     prompt = (
         "Given the following list of product names, suggest a concise, precise category name that best describes the majority of products and is not generic. "
         f"Do NOT use any of these words: {', '.join(used_names)}\n"
@@ -225,4 +224,4 @@ def cluster_and_label_products(
     # Step 5: Name the clusters using OpenAI
     df, cluster_name_map = assign_cluster_names(df, openai_api_key=openai_api_key)
     print(cluster_name_map)
-    return df, kmeans, vectorizer,
+    return df, kmeans, vectorizer, X, cluster_name_map

@@ -77,17 +77,13 @@ def full_pipeline(file):
     # 2. Preprocess reviews (clean, tokenize, lemmatize, etc.)
     df = preprocess_pipeline(df)
     
-    # 3. Preprocess product names/categories for clustering
-    df_names = preprocess_and_lemmatize_names_categories(df)
-    df = pd.concat([df, df_names], axis=1)
-    
-    # 4. Predict sentiment using trained model
+    # 3. Predict sentiment using trained model
     X_tfidf = tfidf_vectorizer.transform(df['lemmatized_str'])
     review_length = np.array([len(x.split()) for x in df['lemmatized_str']]).reshape(-1, 1)
     X_features = hstack([X_tfidf, review_length])
     df['sentiment'] = sentiment_model.predict(X_features)
 
-    # 5. Cluster products (returns df with 'cluster' and 'clustered_category' columns)
+    # 4. Cluster products (returns df with 'cluster' and 'clustered_category' columns)
     df, kmeans, vectorizer, X, cluster_name_map = cluster_and_label_products(
         df,
         text_col='name_category_lemmatized',
@@ -97,10 +93,10 @@ def full_pipeline(file):
         show_plot=False
     )
     
-    # 6. Generate blogposts for each cluster/category
+    # 5. Generate blogposts for each cluster/category
     blogposts = generate_blogposts_for_all_categories(df, generator=blog_generator)
     
-    # 7. Return blogposts as a single string
+    # 6. Return blogposts as a single string
     return "\n\n".join(blogposts)
 
 iface = gr.Interface(
