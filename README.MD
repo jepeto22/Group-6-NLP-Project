@@ -1,4 +1,4 @@
-    # Amazon Product Review Blog Generator
+# Amazon Product Review Blog Generator
 
 ## Overview
 
