@@ -1,15 +1,39 @@
-import gradio as gr
-import pandas as pd
-import joblib
+# 0. Imports and Setup
+
 import os
+import re
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from collections import Counter
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.svm import LinearSVC
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from scipy.sparse import hstack
+import joblib
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+import torch
+
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+import gradio as gr
 from dotenv import load_dotenv
 
 from data_preprocessing import preprocess_pipeline, preprocess_and_lemmatize_names_categories
 from clustering import cluster_and_label_products
 from blog_generation import generate_blogposts_for_all_categories
 
-from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-import torch
+
 
 # Load environment variables
 load_dotenv()
@@ -52,8 +76,10 @@ def full_pipeline(file):
     
     # 4. Predict sentiment using trained model
     X_tfidf = tfidf_vectorizer.transform(df['lemmatized_str'])
-    df['sentiment'] = sentiment_model.predict(X_tfidf)
-    
+    review_length = np.array([len(x.split()) for x in df['lemmatized_str']]).reshape(-1, 1)
+    X_features = hstack([X_tfidf, review_length])
+    df['sentiment'] = sentiment_model.predict(X_features)
+
     # 5. Cluster products (returns df with 'cluster' and 'clustered_category' columns)
     df, kmeans, vectorizer, X, cluster_name_map = cluster_and_label_products(
         df,
